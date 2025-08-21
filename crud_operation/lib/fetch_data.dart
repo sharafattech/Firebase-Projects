@@ -64,7 +64,8 @@ import 'package:crud_operation/home_page.dart';
 import 'package:flutter/material.dart';
 
 class FetchData extends StatefulWidget {
-  const FetchData({super.key});
+  final String PhoneNumber;
+  const FetchData({super.key, required this.PhoneNumber});
 
   @override
   State<FetchData> createState() => _FetchDataState();
@@ -101,10 +102,24 @@ class _FetchDataState extends State<FetchData> {
                   );
                 }
                 var docs = snapshot.data!.docs;
+                List<QueryDocumentSnapshot> filteredDocs =
+                    []; // empty list to hold matched docs
+
+                for (var doc in docs) {
+                  var data = doc.data() as Map<String, dynamic>;
+                  if (data['Mobile'] == widget.PhoneNumber) {
+                    filteredDocs.add(doc); // add to list if matches
+                  }
+                }
+                if (filteredDocs.isEmpty) {
+                  return Center(
+                      child: Text("No match found for ${widget.PhoneNumber}"));
+                }
+
                 return ListView.builder(
-                  itemCount: docs.length,
+                  itemCount: filteredDocs.length,
                   itemBuilder: (context, index) {
-                    var data = docs[index].data();
+                    var data = filteredDocs[index];
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -118,17 +133,17 @@ class _FetchDataState extends State<FetchData> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                data['Name'],
+                                data['Name']?.toString() ?? 'No Name',
                                 style: TextStyle(fontSize: 15),
                               ),
                               Text(
-                                data['Email'],
+                                data['Email']?.toString() ?? 'No Email',
                                 style: TextStyle(fontSize: 15),
                               ),
                               Text(
-                                data['Mobile'],
+                                data['Mobile']?.toString() ?? 'No Mobile',
                                 style: TextStyle(fontSize: 15),
-                              )
+                              ),
                             ],
                           ),
                         ),

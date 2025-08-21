@@ -1,5 +1,6 @@
 import 'package:crud_operation/fetch_data.dart';
 import 'package:crud_operation/home_page.dart';
+import 'package:crud_operation/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -14,6 +15,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: FetchData());
+    return MaterialApp(home: ResultPage());
   }
 }

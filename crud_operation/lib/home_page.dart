@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
 
                   add_data_to_db();
                 },
-                child: Text('add'))
+                child: Text('add')),
           ],
         ),
       ),
